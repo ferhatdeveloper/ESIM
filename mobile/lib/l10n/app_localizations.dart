@@ -118,8 +118,11 @@ class AppLocalizations {
   String get smdp => _t('SM-DP+', 'SM-DP+', 'SM-DP+');
   String get activationCode => _t('Activation code', 'Etkinleştirme kodu', 'رمز التفعيل');
   String get filterAll => _t('All', 'Tümü', 'الكل');
+  String get filterUsable => _t('Usable', 'Kullanılacak', 'قابلة للاستخدام');
   String get filterActive => _t('Active', 'Aktif', 'نشطة');
   String get filterReady => _t('Ready', 'Hazır', 'جاهزة');
+  String get useData => _t('Use 100 MB (this eSIM only)', '100 MB kullan (yalnızca bu eSIM)', 'استخدم 100 م.ب (هذه الشريحة فقط)');
+  String get demoHint => _t('Demo: demo@esim.app / Demo12345!', 'Demo: demo@esim.app / Demo12345!', 'تجريبي: demo@esim.app / Demo12345!');
   String get filterExpired => _t('Expired', 'Süresi doldu', 'منتهية');
   String get filterDepleted => _t('Depleted', 'Tükendi', 'مستنفدة');
   String get filterCancelled => _t('Cancelled', 'İptal', 'ملغاة');

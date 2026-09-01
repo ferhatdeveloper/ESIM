@@ -1,11 +1,11 @@
 # Voyage eSIM (Flutter)
 
-MVVM + Riverpod + GoRouter. HTTP yalnızca PostgREST’e gider.
+MVVM + Riverpod + GoRouter. Varsayılan veri katmanı **SQLite**.
 
 ```bash
 flutter pub get
 flutter test
-flutter run --dart-define=POSTGREST_URL=http://127.0.0.1:3000
+flutter run --dart-define=USE_SQLITE=true
 ```
 
-Android emülatöründe taban URL `http://10.0.2.2:3000` olmalıdır.
+PostgREST için: `--dart-define=USE_SQLITE=false --dart-define=POSTGREST_URL=http://127.0.0.1:3000`

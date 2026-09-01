@@ -347,6 +347,8 @@ class UserEsim {
       (activationCode != null && activationCode!.isNotEmpty) ||
       (smdpAddress != null && smdpAddress!.isNotEmpty);
 
+  bool get isUsable => status == 'ready' || status == 'active';
+
   factory UserEsim.fromJson(Map<String, dynamic> json) {
     return UserEsim(
       id: json['id'] as String,

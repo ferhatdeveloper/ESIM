@@ -59,6 +59,22 @@ class EsimDetailPage extends ConsumerWidget {
                 child: Text(l10n.activate),
               ),
             ],
+            if (item.isUsable && item.remainingBalance > 0) ...[
+              const SizedBox(height: 8),
+              OutlinedButton(
+                onPressed: () async {
+                  await ref.read(apiRepositoryProvider).applyEsimUsage(
+                        esimId: item.id,
+                        usageAmount: 100,
+                        source: 'manual_use',
+                      );
+                  ref.invalidate(esimDetailProvider(esimId));
+                  ref.invalidate(esimUsageProvider(esimId));
+                  ref.invalidate(myEsimsProvider);
+                },
+                child: Text(l10n.useData),
+              ),
+            ],
             const SizedBox(height: 24),
             Text(l10n.usageHistory, style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 8),

@@ -1,3 +1,5 @@
+// ignore_for_file: annotate_overrides
+
 import 'package:dio/dio.dart';
 import 'package:uuid/uuid.dart';
 
@@ -5,8 +7,9 @@ import '../../core/constants/api_constants.dart';
 import '../../core/errors/app_exception.dart';
 import '../../core/network/dio_client.dart';
 import '../models/models.dart';
+import 'esim_repository.dart';
 
-class ApiRepository {
+class ApiRepository implements EsimRepository {
   ApiRepository(this._client);
 
   final DioClient _client;
@@ -247,9 +250,25 @@ class ApiRepository {
     });
   }
 
+  @override
   Future<void> activateEsim(String esimId) {
     return _guard(() async {
       await _dio.post(ApiConstants.activateEsim, data: {'esim_id': esimId});
+    });
+  }
+
+  @override
+  Future<void> applyEsimUsage({
+    required String esimId,
+    required double usageAmount,
+    String source = 'mock_sync',
+  }) {
+    return _guard(() async {
+      await _dio.post(ApiConstants.applyEsimUsage, data: {
+        'esim_id': esimId,
+        'usage_amount': usageAmount,
+        'source': source,
+      });
     });
   }
 }

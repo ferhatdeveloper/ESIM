@@ -15,7 +15,7 @@ class MyEsimsPage extends ConsumerStatefulWidget {
 }
 
 class _MyEsimsPageState extends ConsumerState<MyEsimsPage> {
-  String _filter = 'all';
+  String _filter = 'usable';
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +33,7 @@ class _MyEsimsPageState extends ConsumerState<MyEsimsPage> {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               children: [
+                _chip(l10n.filterUsable, 'usable'),
                 _chip(l10n.filterAll, 'all'),
                 _chip(l10n.filterActive, 'active'),
                 _chip(l10n.filterReady, 'ready'),
@@ -50,7 +51,11 @@ class _MyEsimsPageState extends ConsumerState<MyEsimsPage> {
                 onRetry: () => ref.invalidate(myEsimsProvider),
                 empty: Center(child: Text(l10n.emptyEsims)),
                 builder: (items) {
-                  final filtered = items.where((e) => _filter == 'all' || e.status == _filter).toList();
+                  final filtered = items.where((e) {
+                    if (_filter == 'all') return true;
+                    if (_filter == 'usable') return e.isUsable;
+                    return e.status == _filter;
+                  }).toList();
                   if (filtered.isEmpty) return Center(child: Text(l10n.empty));
                   return ListView.separated(
                     padding: const EdgeInsets.all(16),

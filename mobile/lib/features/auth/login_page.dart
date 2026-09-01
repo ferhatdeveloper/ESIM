@@ -16,8 +16,8 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _form = GlobalKey<FormState>();
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final _email = TextEditingController(text: 'demo@esim.app');
+  final _password = TextEditingController(text: 'Demo12345!');
   bool _busy = false;
   String? _error;
 
@@ -55,6 +55,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             Text(l10n.appName, style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.teal, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             Text(l10n.oneTimeRule),
+            const SizedBox(height: 8),
+            Text(l10n.demoHint, style: Theme.of(context).textTheme.bodySmall),
             const SizedBox(height: 32),
             Form(
               key: _form,

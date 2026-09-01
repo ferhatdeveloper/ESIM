@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/constants/api_constants.dart';
 import '../../core/network/dio_client.dart';
 import '../../core/security/token_store.dart';
 import '../models/models.dart';
 import 'api_repository.dart';
+import 'esim_repository.dart';
+import 'sqlite/sqlite_repository.dart';
 
 final tokenStoreProvider = Provider<TokenStore>((ref) => SecureTokenStore());
 
@@ -24,7 +27,7 @@ class AuthState {
 
 class AuthController extends Notifier<AuthState> {
   late TokenStore _store;
-  late ApiRepository _api;
+  late EsimRepository _api;
 
   @override
   AuthState build() {
@@ -32,7 +35,7 @@ class AuthController extends Notifier<AuthState> {
     return const AuthState();
   }
 
-  void attachApi(ApiRepository api) => _api = api;
+  void attachApi(EsimRepository api) => _api = api;
 
   Future<void> restore() async {
     final refresh = await _store.readRefreshToken();
@@ -128,14 +131,19 @@ final dioClientProvider = Provider<DioClient>((ref) {
   );
 });
 
-final apiRepositoryProvider = Provider<ApiRepository>((ref) {
-  final api = ApiRepository(ref.watch(dioClientProvider));
+final apiRepositoryProvider = Provider<EsimRepository>((ref) {
+  final EsimRepository api = AppConstants.useSqlite
+      ? SqliteRepository.instance
+      : ApiRepository(ref.watch(dioClientProvider));
   ref.read(authControllerProvider.notifier).attachApi(api);
   return api;
 });
 
 final bootstrapProvider = FutureProvider<void>((ref) async {
   final api = ref.read(apiRepositoryProvider);
+  if (api is SqliteRepository) {
+    await api.init();
+  }
   ref.read(authControllerProvider.notifier).attachApi(api);
   await ref.read(authControllerProvider.notifier).restore();
 });

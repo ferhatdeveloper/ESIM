@@ -9,6 +9,7 @@ mobile/.pub/
 mobile/coverage/
 mobile/*.iml
 mobile/.idea/
+mobile/.flutter-plugins-dependencies
 **/*.g.dart
 **/*.freezed.dart
 
