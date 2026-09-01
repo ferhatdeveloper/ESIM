@@ -36,5 +36,6 @@ void main() {
     );
     expect(loaded.isRtl, isFalse);
     expect(loaded.oneTimeRule, contains('Bakiyeler'));
+    expect(loaded.loginWithDemo, 'Demo ile giriş');
   });
 }

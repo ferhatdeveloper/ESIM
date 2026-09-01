@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/constants/api_constants.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/validators.dart';
 import '../../l10n/app_localizations.dart';
@@ -16,8 +17,8 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _form = GlobalKey<FormState>();
-  final _email = TextEditingController(text: 'demo@esim.app');
-  final _password = TextEditingController(text: 'Demo12345!');
+  final _email = TextEditingController();
+  final _password = TextEditingController();
   bool _busy = false;
   String? _error;
 
@@ -30,12 +31,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> _submit() async {
     if (!_form.currentState!.validate()) return;
+    await _login(_email.text.trim(), _password.text);
+  }
+
+  Future<void> _loginDemo() async {
+    _email.text = AppConstants.demoEmail;
+    _password.text = AppConstants.demoPassword;
+    await _login(AppConstants.demoEmail, AppConstants.demoPassword);
+  }
+
+  Future<void> _login(String email, String password) async {
     setState(() {
       _busy = true;
       _error = null;
     });
     try {
-      await ref.read(authControllerProvider.notifier).login(_email.text.trim(), _password.text);
+      await ref.read(authControllerProvider.notifier).login(email, password);
     } catch (e) {
       setState(() => _error = e.toString());
     } finally {
@@ -55,9 +66,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             Text(l10n.appName, style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: AppColors.teal, fontWeight: FontWeight.w800)),
             const SizedBox(height: 8),
             Text(l10n.oneTimeRule),
+            const SizedBox(height: 24),
+            FilledButton(
+              key: const Key('demo-login-button'),
+              onPressed: _busy ? null : _loginDemo,
+              child: _busy
+                  ? const SizedBox(height: 22, width: 22, child: CircularProgressIndicator(strokeWidth: 2))
+                  : Text(l10n.loginWithDemo),
+            ),
             const SizedBox(height: 8),
-            Text(l10n.demoHint, style: Theme.of(context).textTheme.bodySmall),
-            const SizedBox(height: 32),
+            Text(l10n.demoHint, textAlign: TextAlign.center, style: Theme.of(context).textTheme.bodySmall),
+            const SizedBox(height: 24),
             Form(
               key: _form,
               child: Column(
@@ -84,9 +103,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ),
             if (_error != null) Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
             const SizedBox(height: 8),
-            FilledButton(
+            FilledButton.tonal(
               onPressed: _busy ? null : _submit,
-              child: _busy ? const CircularProgressIndicator() : Text(l10n.login),
+              child: Text(l10n.login),
             ),
             const SizedBox(height: 12),
             TextButton(

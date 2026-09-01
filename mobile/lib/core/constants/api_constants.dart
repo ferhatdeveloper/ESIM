@@ -42,6 +42,8 @@ class AppConstants {
   static const supportedCurrencies = ['USD', 'EUR', 'TRY', 'IQD'];
   static const defaultLocale = 'en';
   static const defaultCurrency = 'USD';
+  static const demoEmail = 'demo@esim.app';
+  static const demoPassword = 'Demo12345!';
 
   /// Local SQLite is the default until PostgREST is wired in production.
   static const useSqlite = bool.fromEnvironment('USE_SQLITE', defaultValue: true);

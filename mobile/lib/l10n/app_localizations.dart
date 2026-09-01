@@ -39,6 +39,7 @@ class AppLocalizations {
   String get orders => _t('Orders', 'Siparişler', 'الطلبات');
   String get profile => _t('Profile', 'Profil', 'الملف');
   String get login => _t('Sign in', 'Giriş yap', 'تسجيل الدخول');
+  String get loginWithDemo => _t('Sign in with demo', 'Demo ile giriş', 'دخول تجريبي');
   String get register => _t('Create account', 'Hesap oluştur', 'إنشاء حساب');
   String get email => _t('Email', 'E-posta', 'البريد');
   String get password => _t('Password', 'Şifre', 'كلمة المرور');
