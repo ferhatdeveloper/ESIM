@@ -72,14 +72,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 TextFormField(controller: _password, obscureText: true, decoration: InputDecoration(labelText: l10n.password), validator: Validators.password),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: _locale,
+                  initialValue: _locale,
                   decoration: InputDecoration(labelText: l10n.language),
                   items: AppConstants.supportedLocales.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                   onChanged: (v) => setState(() => _locale = v ?? 'en'),
                 ),
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
-                  value: _currency,
+                  initialValue: _currency,
                   decoration: InputDecoration(labelText: l10n.currency),
                   items: AppConstants.supportedCurrencies.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
                   onChanged: (v) => setState(() => _currency = v ?? 'USD'),

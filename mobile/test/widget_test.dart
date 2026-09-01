@@ -1,5 +1,6 @@
 import 'package:esim_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -9,7 +10,12 @@ void main() {
       MaterialApp(
         locale: const Locale('ar'),
         supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [AppLocalizations.delegate],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         home: Builder(
           builder: (context) {
             loaded = AppLocalizations.of(context);
@@ -20,12 +26,18 @@ void main() {
     );
     expect(loaded.isRtl, isTrue);
     expect(loaded.home, 'الرئيسية');
+    expect(loaded.loginWithDemo, 'دخول تجريبي');
 
     await tester.pumpWidget(
       MaterialApp(
         locale: const Locale('tr'),
         supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [AppLocalizations.delegate],
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         home: Builder(
           builder: (context) {
             loaded = AppLocalizations.of(context);
