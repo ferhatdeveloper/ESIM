@@ -54,7 +54,7 @@ DO $$
 DECLARE
   mock_id uuid := '11111111-1111-1111-1111-111111111111';
   rec RECORD;
-  plan_id uuid;
+  v_plan_id uuid;
   amounts int[];
   days int[];
   usd numeric[];
@@ -66,7 +66,7 @@ BEGIN
 
   FOR rec IN SELECT * FROM app.countries LOOP
     FOR i IN 1..3 LOOP
-      plan_id := NULL;
+      v_plan_id := NULL;
       INSERT INTO app.esim_plans (
         country_id, provider_id, provider_product_id,
         name_en, name_tr, name_ar,
@@ -79,18 +79,18 @@ BEGIN
         amounts[i], days[i], i = 3 AND rec.is_popular, i * 10
       )
       ON CONFLICT (provider_id, provider_product_id) DO NOTHING
-      RETURNING id INTO plan_id;
+      RETURNING id INTO v_plan_id;
 
-      IF plan_id IS NULL THEN
-        SELECT id INTO plan_id FROM app.esim_plans
+      IF v_plan_id IS NULL THEN
+        SELECT id INTO v_plan_id FROM app.esim_plans
         WHERE provider_id = mock_id AND provider_product_id = rec.iso2 || '-' || amounts[i] || '-' || days[i];
       END IF;
 
       INSERT INTO app.plan_prices (plan_id, currency, amount) VALUES
-        (plan_id, 'USD', usd[i]),
-        (plan_id, 'EUR', round(usd[i] * 0.92, 2)),
-        (plan_id, 'TRY', round(usd[i] * 34, 2)),
-        (plan_id, 'IQD', round(usd[i] * 1310, 0))
+        (v_plan_id, 'USD', usd[i]),
+        (v_plan_id, 'EUR', round(usd[i] * 0.92, 2)),
+        (v_plan_id, 'TRY', round(usd[i] * 34, 2)),
+        (v_plan_id, 'IQD', round(usd[i] * 1310, 0))
       ON CONFLICT (plan_id, currency) DO NOTHING;
     END LOOP;
   END LOOP;

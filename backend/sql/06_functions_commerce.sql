@@ -82,8 +82,8 @@ BEGIN
   END IF;
 
   SELECT * INTO existing
-  FROM app.orders
-  WHERE user_id = uid AND idempotency_key = btrim(create_checkout.idempotency_key);
+  FROM app.orders o
+  WHERE o.user_id = uid AND o.idempotency_key = btrim(create_checkout.idempotency_key);
 
   IF existing.id IS NOT NULL THEN
     SELECT oi.plan_id INTO plan.id FROM app.order_items oi WHERE oi.order_id = existing.id;
@@ -115,8 +115,8 @@ BEGIN
   END IF;
 
   SELECT * INTO price
-  FROM app.plan_prices
-  WHERE plan_id = plan.id AND currency = create_checkout.currency::app.currency_code;
+  FROM app.plan_prices pp
+  WHERE pp.plan_id = plan.id AND pp.currency = create_checkout.currency::app.currency_code;
 
   IF price.id IS NULL THEN
     RAISE EXCEPTION 'Price not available for currency' USING ERRCODE = 'P0002';
