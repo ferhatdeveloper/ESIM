@@ -22,6 +22,7 @@ void main() {
         ),
       ),
     );
+    await tester.pumpAndSettle();
 
     expect(find.byKey(const Key('demo-login-button')), findsOneWidget);
     expect(find.text('Demo ile giriş'), findsOneWidget);

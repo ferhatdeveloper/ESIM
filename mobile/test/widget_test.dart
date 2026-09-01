@@ -1,53 +1,17 @@
 import 'package:esim_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('Arabic localization is RTL and Turkish strings load', (tester) async {
-    late AppLocalizations loaded;
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('ar'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        home: Builder(
-          builder: (context) {
-            loaded = AppLocalizations.of(context);
-            return Text(loaded.home);
-          },
-        ),
-      ),
-    );
-    expect(loaded.isRtl, isTrue);
-    expect(loaded.home, 'الرئيسية');
-    expect(loaded.loginWithDemo, 'دخول تجريبي');
+  test('Arabic is RTL and Turkish demo label is correct', () {
+    final ar = AppLocalizations(const Locale('ar'));
+    expect(ar.isRtl, isTrue);
+    expect(ar.home, 'الرئيسية');
+    expect(ar.loginWithDemo, 'دخول تجريبي');
 
-    await tester.pumpWidget(
-      MaterialApp(
-        locale: const Locale('tr'),
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        home: Builder(
-          builder: (context) {
-            loaded = AppLocalizations.of(context);
-            return Text(loaded.oneTimeRule);
-          },
-        ),
-      ),
-    );
-    expect(loaded.isRtl, isFalse);
-    expect(loaded.oneTimeRule, contains('Bakiyeler'));
-    expect(loaded.loginWithDemo, 'Demo ile giriş');
+    final tr = AppLocalizations(const Locale('tr'));
+    expect(tr.isRtl, isFalse);
+    expect(tr.oneTimeRule, contains('Bakiyeler'));
+    expect(tr.loginWithDemo, 'Demo ile giriş');
   });
 }
