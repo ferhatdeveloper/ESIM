@@ -47,6 +47,7 @@ void main() {
     final b = UserEsim.fromJson(json('b', 10240));
     expect(a.remainingBalance, isNot(b.remainingBalance));
     expect(a.id, isNot(b.id));
+    expect(a.isUsable, isTrue);
   });
 
   test('checkout quote never uses a client-supplied total field as source of truth', () {
