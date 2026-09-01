@@ -1,0 +1,22 @@
+# Flutter
+mobile/.dart_tool/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/.packages
+mobile/build/
+mobile/.pub-cache/
+mobile/.pub/
+mobile/coverage/
+mobile/*.iml
+mobile/.idea/
+**/*.g.dart
+**/*.freezed.dart
+
+# Backend
+backend/.env
+backend/**/__pycache__/
+backend/**/.pytest_cache/
+
+# OS
+.DS_Store
+*.log
